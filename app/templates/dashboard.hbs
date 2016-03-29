@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="col-lg-12">
+    <p>Welcome {{user.name.givenName}}</p>
+    <img class="img-circle" height="50px" width="50px" src={{user.image.url}}>
+  </div>
+</div>
+{{#if noAnalyticsAccount}}
+<div class="row">
+  <div class="col-lg-12">
+    <h4 class="alert-danger">You don't have any Google Analytics account. Please signin with email that has Google Analytics account.</h4>
+  </div>
+</div>
+{{else}}
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="form-group">
+        <label for="site">Select a site for analytics report</label>
+        <select id="select-site" name="site" class="form-control" onchange={{action "fetchData" value="target.value"}}>
+          <option value="none">-- Select Site --</option>
+          {{#each accounts as |site|}}
+            <option value={{site.id}}>{{site.name}} - [{{site.url}}]</option>
+          {{/each}}
+        </select>
+      </div>
+    </div>
+  </div>
+  {{#if showChart}}
+  <div class="row">
+    <div class="col-sm-12">
+      <h3>Summary for {{analytics.site}}</h3>
+      <p class="lead">Your site had {{analytics.pageviews}} page views in the last 30 days</p>
+    </div>
+    <div class="col-sm-12">
+      {{line-chart data=analytics.chartData options=analytics.chartOptions}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <h4>Total Pageviews: <span class="label label-info">{{analytics.pageviews}}</span></h4>
+      <h4>Bounce Rate: <span class="label label-info">{{precision analytics.bounceRate}}%</span></h4>
+    </div>
+    <div class="col-sm-12">
+      <p class="lead">{{analytics.uniquePageview}} unique visitors each spent an average of {{format-duration analytics.avgSessionDuration}} over {{precision analytics.pageviewsPerSession}} pages per session</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <table class="table">
+        <caption>Page stats</caption>
+        <thead>
+          <tr>
+            <th>Views</th>
+            <th>Pages</th>
+            <th>Time on site</th>
+            <th>Page loadtime</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each analytics.pagemetric as |metric|}}
+            <tr>
+              <th scope="row">{{metric.pageviews}}</th>
+              <td>{{metric.pagepath}}</td>
+              <td>{{format-duration metric.avgSessionDuration}}</td>
+              <td>{{format-duration metric.avgPageLoadTime}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {{/if}}
+{{/if}}

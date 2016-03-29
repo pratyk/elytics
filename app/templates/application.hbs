@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="header">
+    <nav>
+      <ul class="nav nav-pills pull-right">
+        {{#if session.isAuthenticated }}
+          <li role="presentation"><a href="#" {{action 'logout'}}>Logout</a></li>
+        {{/if}}
+      </ul>
+    </nav>
+    <h3 class="text-muted">Elytics</h3>
+  </div>
+  {{#if session.isAuthenticated }}
+    {{outlet}}
+  {{else}}
+    <div class="jumbotron">
+      <h1>Elytics</h1>
+      <p class="lead">Simple Ember.js app that generates a minimal analytics report from your Google analytics data.</p>
+      <p><a class="btn btn-lg btn-success" href="#" role="button" {{action 'signInViaGoogle'}}>Sign In via Google</a></p>
+    </div>
+  {{/if}}
+  <footer class="footer">
+    <p>&copy; Elytics 2016. Built by <a href="https://twitter.com/pratyksp">@pratyksp</a>. <a href="mailto:pratykschingh@gmail.com?subject=I would like to hire you [Elytics]">Contact me</a> to build web applications like this or better.</p>
+    <p>This app generates report similar to <a href="https://briefmetrics.com">briefmetrics</a>. Use them to get weekly email report. Or, hire me to build a custom app.</p>
+  </footer>
+</div>
